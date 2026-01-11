@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { X, Camera, CameraOff, Flashlight, FlashlightOff } from 'lucide-react';
-import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
+import { Html5QrcodeScanner, Html5Qrcode, Html5QrcodeScanType } from 'html5-qrcode';
+import '@/styles/barcode-scanner.css';
 
 interface BarcodeScannerProps {
   open: boolean;
@@ -11,15 +12,14 @@ interface BarcodeScannerProps {
 }
 
 export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasFlashlight, setHasFlashlight] = useState(false);
   const [flashlightOn, setFlashlightOn] = useState(false);
   const [cameraDevices, setCameraDevices] = useState<MediaDeviceInfo[]>([]);
   const [selectedCamera, setSelectedCamera] = useState<string>('');
-  const readerRef = useRef<BrowserMultiFormatReader | null>(null);
-  const streamRef = useRef<MediaStream | null>(null);
+  const scannerRef = useRef<Html5Qrcode | null>(null);
+  const elementId = 'qr-reader';
 
   useEffect(() => {
     if (open) {
@@ -38,22 +38,21 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
       setError(null);
       
       // Get camera devices
-      const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoDevices = devices.filter(device => device.kind === 'videoinput');
-      setCameraDevices(videoDevices);
+      const devices = await Html5Qrcode.getCameras();
+      setCameraDevices(devices);
       
       // Prefer back camera for barcode scanning
-      const backCamera = videoDevices.find(device => 
+      const backCamera = devices.find(device => 
         device.label.toLowerCase().includes('back') || 
         device.label.toLowerCase().includes('rear') ||
         device.label.toLowerCase().includes('environment')
       );
       
-      const deviceId = backCamera?.deviceId || videoDevices[0]?.deviceId;
-      setSelectedCamera(deviceId);
+      const cameraId = backCamera?.id || devices[0]?.id;
+      setSelectedCamera(cameraId);
       
-      if (deviceId) {
-        await startScanning(deviceId);
+      if (cameraId) {
+        await startScanning(cameraId);
       } else {
         setError('Tidak ada kamera yang tersedia');
       }
@@ -63,56 +62,56 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
     }
   };
 
-  const startScanning = async (deviceId: string) => {
+  const startScanning = async (cameraId: string) => {
     try {
       setIsScanning(true);
       setError(null);
 
       // Stop previous scanning
-      if (readerRef.current) {
-        readerRef.current.reset();
+      if (scannerRef.current) {
+        await scannerRef.current.stop();
+        scannerRef.current.clear();
       }
 
-      // Initialize reader
-      const reader = new BrowserMultiFormatReader();
-      readerRef.current = reader;
+      // Initialize scanner
+      const scanner = new Html5Qrcode(elementId);
+      scannerRef.current = scanner;
 
-      // Get video stream
-      const constraints = {
-        video: {
-          deviceId: deviceId ? { exact: deviceId } : undefined,
-          facingMode: deviceId ? undefined : { ideal: 'environment' },
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
+      // Configuration for scanning
+      const config = {
+        fps: 10,
+        qrbox: { width: 250, height: 150 },
+        aspectRatio: 1.777778,
+        supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
       };
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      streamRef.current = stream;
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-      }
+      // Start scanning
+      await scanner.start(
+        cameraId,
+        config,
+        (decodedText, decodedResult) => {
+          console.log('Barcode scanned:', decodedText);
+          onScan(decodedText);
+          onClose();
+        },
+        (errorMessage) => {
+          // Handle scan errors silently (common during scanning)
+          // console.log('Scan error:', errorMessage);
+        }
+      );
 
       // Check for flashlight capability
-      const track = stream.getVideoTracks()[0];
-      const capabilities = track.getCapabilities();
-      setHasFlashlight('torch' in capabilities);
-
-      // Start decoding
-      reader.decodeFromVideoDevice(deviceId, videoRef.current, (result, error) => {
-        if (result) {
-          const scannedText = result.getText();
-          console.log('Barcode scanned:', scannedText);
-          onScan(scannedText);
-          onClose();
-        }
-        
-        if (error && !(error instanceof NotFoundException)) {
-          console.error('Scan error:', error);
-        }
-      });
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { deviceId: cameraId } 
+        });
+        const track = stream.getVideoTracks()[0];
+        const capabilities = track.getCapabilities();
+        setHasFlashlight('torch' in capabilities);
+        stream.getTracks().forEach(track => track.stop());
+      } catch (err) {
+        console.log('Could not check flashlight capability:', err);
+      }
 
     } catch (err) {
       console.error('Error starting scanner:', err);
@@ -121,33 +120,29 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
     }
   };
 
-  const stopScanning = () => {
+  const stopScanning = async () => {
     setIsScanning(false);
     setFlashlightOn(false);
 
-    // Stop reader
-    if (readerRef.current) {
-      readerRef.current.reset();
-      readerRef.current = null;
-    }
-
-    // Stop video stream
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
-      streamRef.current = null;
-    }
-
-    // Clear video element
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
+    if (scannerRef.current) {
+      try {
+        await scannerRef.current.stop();
+        scannerRef.current.clear();
+        scannerRef.current = null;
+      } catch (err) {
+        console.error('Error stopping scanner:', err);
+      }
     }
   };
 
   const toggleFlashlight = async () => {
-    if (!streamRef.current) return;
+    if (!scannerRef.current) return;
 
     try {
-      const track = streamRef.current.getVideoTracks()[0];
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { deviceId: selectedCamera } 
+      });
+      const track = stream.getVideoTracks()[0];
       const capabilities = track.getCapabilities();
       
       if ('torch' in capabilities) {
@@ -156,18 +151,20 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
         });
         setFlashlightOn(!flashlightOn);
       }
+      
+      stream.getTracks().forEach(track => track.stop());
     } catch (err) {
       console.error('Error toggling flashlight:', err);
     }
   };
 
-  const switchCamera = async (deviceId: string) => {
-    setSelectedCamera(deviceId);
-    await startScanning(deviceId);
+  const switchCamera = async (cameraId: string) => {
+    setSelectedCamera(cameraId);
+    await startScanning(cameraId);
   };
 
-  const handleClose = () => {
-    stopScanning();
+  const handleClose = async () => {
+    await stopScanning();
     onClose();
   };
 
@@ -192,29 +189,8 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
         </DialogHeader>
 
         <div className="relative">
-          {/* Video Element */}
-          <video
-            ref={videoRef}
-            className="w-full h-64 object-cover"
-            playsInline
-            muted
-          />
-
-          {/* Scanning Overlay */}
-          {isScanning && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="border-2 border-primary w-48 h-32 relative">
-                <div className="absolute inset-0 border border-white/50"></div>
-                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary"></div>
-                <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary"></div>
-                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary"></div>
-                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary"></div>
-                
-                {/* Scanning Line Animation */}
-                <div className="absolute inset-x-0 top-0 h-0.5 bg-primary animate-pulse"></div>
-              </div>
-            </div>
-          )}
+          {/* Scanner Element */}
+          <div id={elementId} className="w-full h-64"></div>
 
           {/* Error State */}
           {error && (
@@ -247,7 +223,7 @@ export function BarcodeScanner({ open, onClose, onScan }: BarcodeScannerProps) {
                 className="w-full p-2 rounded bg-white/10 text-white border border-white/20"
               >
                 {cameraDevices.map((device, index) => (
-                  <option key={device.deviceId} value={device.deviceId} className="text-black">
+                  <option key={device.id} value={device.id} className="text-black">
                     {device.label || `Kamera ${index + 1}`}
                   </option>
                 ))}

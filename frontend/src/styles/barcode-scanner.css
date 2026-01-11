@@ -1,0 +1,124 @@
+/* Custom styles for html5-qrcode scanner */
+#qr-reader {
+  border: none !important;
+  background: transparent !important;
+}
+
+#qr-reader__dashboard {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  margin-top: 8px !important;
+}
+
+#qr-reader__dashboard_section {
+  background: transparent !important;
+  border: none !important;
+  margin: 4px 0 !important;
+}
+
+#qr-reader__dashboard_section_csr {
+  text-align: center !important;
+}
+
+#qr-reader__dashboard_section_csr > select {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 6px !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  width: 100% !important;
+  font-size: 14px !important;
+}
+
+#qr-reader__dashboard_section_csr > select option {
+  background: #1a1a1a !important;
+  color: white !important;
+}
+
+#qr-reader__dashboard_section_swaplink {
+  text-align: center !important;
+}
+
+#qr-reader__dashboard_section_swaplink > a {
+  color: #3b82f6 !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+  border: 1px solid rgba(59, 130, 246, 0.2) !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+  transition: all 0.2s ease !important;
+}
+
+#qr-reader__dashboard_section_swaplink > a:hover {
+  background: rgba(59, 130, 246, 0.2) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+#qr-reader__scan_region {
+  border: 2px solid #3b82f6 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+}
+
+#qr-reader__scan_region > img {
+  opacity: 0.8 !important;
+  filter: invert(1) !important;
+}
+
+/* Hide file input section since we only want camera scanning */
+#qr-reader__dashboard_section_fsr {
+  display: none !important;
+}
+
+/* Custom scanning animation */
+@keyframes scanLine {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: 50%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+#qr-reader__scan_region::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  animation: scanLine 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* Status text styling */
+#qr-reader__status_span {
+  color: white !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  display: block !important;
+  margin: 8px 0 !important;
+}
+
+/* Camera permission text */
+#qr-reader__camera_permission_button {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
+}
+
+#qr-reader__camera_permission_button:hover {
+  background: #2563eb !important;
+}
