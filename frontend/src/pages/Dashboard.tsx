@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Package, ArrowDownCircle, ArrowUpCircle, UserCheck, AlertTriangle } from 'lucide-react';
+import { Package, ArrowDownCircle, ArrowUpCircle, UserCheck, AlertTriangle, Info } from 'lucide-react';
 import { PageHeader } from '@/components/PageHeader';
 import { StatCard } from '@/components/StatCard';
 import { ActivityItem } from '@/components/ActivityItem';
@@ -8,6 +8,7 @@ import { dashboardApi, attendanceApi } from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { format } from 'date-fns';
 import { formatDate, getCurrentTime } from '@/utils/timezone';
+import { getAppVersion, formatBuildTime } from '@/utils/version';
 import { toast } from 'sonner';
 
 interface DashboardStats {
@@ -41,6 +42,9 @@ export default function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'low-stock' | 'stock-in' | 'stock-out'>('low-stock');
   const [modalTitle, setModalTitle] = useState('');
+
+  // Get version info
+  const versionInfo = getAppVersion();
 
   useEffect(() => {
     loadDashboardData();
@@ -228,6 +232,14 @@ export default function Dashboard() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Version Indicator */}
+        <div className="flex items-center justify-center gap-2 py-2">
+          <Info className="w-3 h-3 text-muted-foreground" />
+          <span className="text-xs text-muted-foreground">
+            v{versionInfo.version} • Build {formatBuildTime(versionInfo.buildTime)}
+          </span>
         </div>
       </div>
 
