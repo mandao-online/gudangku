@@ -26,7 +26,7 @@ use App\Http\Controllers\Api\UserController;
 Route::get('/test', function () {
     return response()->json([
         'status' => 'success',
-        'message' => 'API is working!',
+        'message' => ' API run!',
         'timestamp' => now(),
         'environment' => app()->environment()
     ]);

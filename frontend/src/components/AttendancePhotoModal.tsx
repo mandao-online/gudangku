@@ -35,8 +35,8 @@ export function AttendancePhotoModal({ open, type, onClose, onConfirm, isProcess
       setIsCompressing(true);
       setOriginalPhoto(file);
       
-      // Compress image to 95% compression (quality 0.05) like item images
-      const compressedFile = await compressImage(file, 0.05, 800, 600);
+      // Compress image to 50% compression (quality 0.5) for attendance photos
+      const compressedFile = await compressImage(file, 0.5, 800, 600);
       setCapturedPhoto(compressedFile);
       
       // Create preview
