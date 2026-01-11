@@ -1,0 +1,37 @@
+{
+  "protocol": "ftp",
+  "host": "ftp.dashdearchitect.com",
+  "port": 21,
+  "username": "u774809254.gudangku",
+  "password": "Gudang1!",
+  "secure": false,
+  "secureOptions": null,
+  "connTimeout": 10000,
+  "pasvTimeout": 10000,
+  "keepalive": 10000,
+  "remotePath": "/home/u774809254/domains/dashdearchitect.com/public_html/gudangku",
+  "localPath": "./backend",
+  "uploadOnSave": false,
+  "syncMode": "update",
+  "ignore": [
+    ".git/**",
+    ".gitignore",
+    "node_modules/**",
+    "vendor/**",
+    "storage/logs/**",
+    "storage/framework/cache/**",
+    "storage/framework/sessions/**",
+    "storage/framework/views/**",
+    ".env.local",
+    ".env.example",
+    "*.log",
+    "*.tmp",
+    ".DS_Store",
+    "Thumbs.db"
+  ],
+  "watcher": {
+    "files": "**/*",
+    "autoUpload": false,
+    "autoDelete": false
+  }
+}
