@@ -1,0 +1,454 @@
+{
+  "info": {
+    "name": "Field Flow API",
+    "description": "API Collection for Field Flow Warehouse Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/warehouse/api/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ahmad.budiman@majubersama.id\",\n  \"password\": \"password\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password\",\n  \"password_confirmation\": \"password\",\n  \"position\": \"Staff\",\n  \"department\": \"Warehouse\",\n  \"phone\": \"+62 812 3456 7890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": ["{{base_url}}"],
+              "path": ["register"]
+            }
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me",
+              "host": ["{{base_url}}"],
+              "path": ["me"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/logout",
+              "host": ["{{base_url}}"],
+              "path": ["logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/dashboard/stats",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Dashboard Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/dashboard/activities",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard", "activities"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Items",
+      "item": [
+        {
+          "name": "Get All Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/items",
+              "host": ["{{base_url}}"],
+              "path": ["items"]
+            }
+          }
+        },
+        {
+          "name": "Create Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Item\",\n  \"sku\": \"TEST-001\",\n  \"stock\": 100,\n  \"unit\": \"pcs\",\n  \"category\": \"Test Category\",\n  \"min_stock\": 10,\n  \"description\": \"Test item description\",\n  \"price\": 50000,\n  \"supplier\": \"Test Supplier\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/items",
+              "host": ["{{base_url}}"],
+              "path": ["items"]
+            }
+          }
+        },
+        {
+          "name": "Get Item by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/items/1",
+              "host": ["{{base_url}}"],
+              "path": ["items", "1"]
+            }
+          }
+        },
+        {
+          "name": "Stock In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 50,\n  \"note\": \"Pembelian dari supplier\",\n  \"reference_number\": \"PO-2024-001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/items/1/stock-in",
+              "host": ["{{base_url}}"],
+              "path": ["items", "1", "stock-in"]
+            }
+          }
+        },
+        {
+          "name": "Stock Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantity\": 10,\n  \"note\": \"Penggunaan untuk proyek A\",\n  \"reference_number\": \"OUT-2024-001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/items/1/stock-out",
+              "host": ["{{base_url}}"],
+              "path": ["items", "1", "stock-out"]
+            }
+          }
+        },
+        {
+          "name": "Get Stock Movements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/stock-movements",
+              "host": ["{{base_url}}"],
+              "path": ["stock-movements"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Get Today Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/attendance/today",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "today"]
+            }
+          }
+        },
+        {
+          "name": "Check In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": -6.2088,\n  \"longitude\": 106.8456,\n  \"notes\": \"Masuk tepat waktu\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/check-in",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "check-in"]
+            }
+          }
+        },
+        {
+          "name": "Check Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"latitude\": -6.2088,\n  \"longitude\": 106.8456,\n  \"notes\": \"Pulang sesuai jadwal\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/attendance/check-out",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "check-out"]
+            }
+          }
+        },
+        {
+          "name": "Get Attendance History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/attendance/history?days=7",
+              "host": ["{{base_url}}"],
+              "path": ["attendance", "history"],
+              "query": [
+                {
+                  "key": "days",
+                  "value": "7"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/profile",
+              "host": ["{{base_url}}"],
+              "path": ["profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmad Budiman Updated\",\n  \"email\": \"ahmad.budiman@majubersama.id\",\n  \"position\": \"Senior Staff Gudang\",\n  \"department\": \"Warehouse\",\n  \"phone\": \"+62 812 3456 7890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/profile",
+              "host": ["{{base_url}}"],
+              "path": ["profile"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

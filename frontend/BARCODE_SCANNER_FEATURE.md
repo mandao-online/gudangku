@@ -1,0 +1,1 @@
+# Barcode Scanner Feature - Scan Barcode untuk Search dan Input SKU
