@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { EditProfileModal } from '@/components/EditProfileModal';
+import { InstallPWA } from '@/components/InstallPWA';
 
 const menuItems = [
   { 
@@ -103,7 +104,10 @@ export default function Profile() {
 
   return (
     <div className="pb-20">
-      <PageHeader title="Profil" />
+      <PageHeader 
+        title="Profil" 
+        action={<InstallPWA />}
+      />
 
       <div className="px-4 py-4 space-y-4">
         {/* Profile Card */}

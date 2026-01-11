@@ -22,6 +22,53 @@ use App\Http\Controllers\Api\UserController;
 |
 */
 
+// Test route for debugging
+Route::get('/test', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'API is working!',
+        'timestamp' => now(),
+        'environment' => app()->environment()
+    ]);
+});
+
+// Debug route for troubleshooting
+Route::get('/debug', function () {
+    try {
+        $debug = [
+            'laravel_version' => app()->version(),
+            'environment' => app()->environment(),
+            'debug_mode' => config('app.debug'),
+            'database_connection' => 'testing...',
+            'cache_driver' => config('cache.default'),
+            'session_driver' => config('session.driver'),
+            'timezone' => config('app.timezone'),
+            'url' => config('app.url')
+        ];
+
+        // Test database connection
+        try {
+            \DB::connection()->getPdo();
+            $debug['database_connection'] = 'success';
+            $debug['users_count'] = \DB::table('users')->count();
+        } catch (Exception $e) {
+            $debug['database_connection'] = 'failed: ' . $e->getMessage();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Laravel debug info',
+            'debug' => $debug
+        ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
+    }
+});
+
 // Public routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
