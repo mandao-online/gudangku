@@ -1,14 +1,14 @@
 /**
  * Compress image file to reduce size while maintaining quality
  * @param file - Original image file
- * @param quality - Compression quality (0-1), default 0.05 for 95% compression
+ * @param quality - Compression quality (0-1), default 0.5 for 50% compression
  * @param maxWidth - Maximum width in pixels, default 800
  * @param maxHeight - Maximum height in pixels, default 600
  * @returns Promise<File> - Compressed image file
  */
 export const compressImage = (
   file: File,
-  quality: number = 0.05, // 95% compression
+  quality: number = 0.5, // 50% compression
   maxWidth: number = 800,
   maxHeight: number = 600
 ): Promise<File> => {

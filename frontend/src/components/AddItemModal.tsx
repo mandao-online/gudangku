@@ -22,10 +22,10 @@ export function AddItemModal({ open, onClose, onConfirm }: AddItemModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     sku: '',
-    stock: 0,
+    stock: '',
     unit: '',
     category: '',
-    min_stock: 0,
+    min_stock: '',
     description: '',
     price: '',
     supplier: '',
@@ -88,8 +88,8 @@ export function AddItemModal({ open, onClose, onConfirm }: AddItemModalProps) {
       setIsCompressing(true);
       
       try {
-        // Compress image to 95% (quality 0.05)
-        const compressedFile = await compressImage(file, 0.05);
+        // Compress image to 50% (quality 0.5)
+        const compressedFile = await compressImage(file, 0.5);
         setSelectedImage(compressedFile);
         
         // Create preview
@@ -142,10 +142,10 @@ export function AddItemModal({ open, onClose, onConfirm }: AddItemModalProps) {
       const submitData = new FormData();
       submitData.append('name', formData.name);
       submitData.append('sku', formData.sku.toUpperCase());
-      submitData.append('stock', formData.stock.toString());
+      submitData.append('stock', formData.stock || '0');
       submitData.append('unit', formData.unit);
       submitData.append('category', formData.category);
-      submitData.append('min_stock', formData.min_stock.toString());
+      submitData.append('min_stock', formData.min_stock || '0');
       
       if (formData.description) {
         submitData.append('description', formData.description);
@@ -166,10 +166,10 @@ export function AddItemModal({ open, onClose, onConfirm }: AddItemModalProps) {
       setFormData({
         name: '',
         sku: '',
-        stock: 0,
+        stock: '',
         unit: '',
         category: '',
-        min_stock: 0,
+        min_stock: '',
         description: '',
         price: '',
         supplier: '',
@@ -414,7 +414,7 @@ export function AddItemModal({ open, onClose, onConfirm }: AddItemModalProps) {
                     </label>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    PNG, JPG, GIF (otomatis dikompres 95%)
+                    PNG, JPG, GIF (otomatis dikompres 50%)
                   </p>
                 </div>
               </div>

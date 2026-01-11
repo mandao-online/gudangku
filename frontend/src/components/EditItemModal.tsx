@@ -114,8 +114,8 @@ export function EditItemModal({ open, item, onClose, onConfirm }: EditItemModalP
       setIsCompressing(true);
       
       try {
-        // Compress image to 95% (quality 0.05)
-        const compressedFile = await compressImage(file, 0.05);
+        // Compress image to 50% (quality 0.5)
+        const compressedFile = await compressImage(file, 0.5);
         setSelectedImage(compressedFile);
         
         // Create preview
@@ -479,7 +479,7 @@ export function EditItemModal({ open, item, onClose, onConfirm }: EditItemModalP
                     </label>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    PNG, JPG, GIF (otomatis dikompres 95%)
+                    PNG, JPG, GIF (otomatis dikompres 50%)
                   </p>
                 </div>
               </div>

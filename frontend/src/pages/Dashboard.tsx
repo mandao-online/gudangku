@@ -7,6 +7,7 @@ import { DashboardDetailModal } from '@/components/DashboardDetailModal';
 import { dashboardApi, attendanceApi } from '@/services/api';
 import { useAuth } from '@/contexts/AuthContext';
 import { format } from 'date-fns';
+import { formatDate, getCurrentTime } from '@/utils/timezone';
 import { toast } from 'sonner';
 
 interface DashboardStats {
@@ -102,7 +103,7 @@ export default function Dashboard() {
       <div className="pb-20">
         <PageHeader 
           title="Dashboard" 
-          subtitle={format(new Date(), 'EEEE, d MMM yyyy')}
+          subtitle={formatDate(getCurrentTime(), 'EEEE, d MMMM yyyy')}
         />
         <div className="px-4 py-4 space-y-4">
           {/* Loading skeleton */}
@@ -132,7 +133,7 @@ export default function Dashboard() {
     <div className="pb-20">
       <PageHeader 
         title="Dashboard" 
-        subtitle={format(new Date(), 'EEEE, d MMM yyyy')}
+        subtitle={formatDate(getCurrentTime(), 'EEEE, d MMMM yyyy')}
       />
 
       <div className="px-4 py-4 space-y-4">
