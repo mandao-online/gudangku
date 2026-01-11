@@ -152,7 +152,7 @@ export function AttendancePhotoModal({ open, type, onClose, onConfirm, isProcess
                 {originalPhoto && capturedPhoto && (
                   <div className="bg-success/10 rounded-lg p-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-success font-medium">Foto dikompres 95%</span>
+                      <span className="text-success font-medium">Foto dikompres 50%</span>
                       <span className="text-muted-foreground text-xs sm:text-sm">
                         {formatFileSize(originalPhoto.size)} → {formatFileSize(capturedPhoto.size)}
                       </span>

@@ -240,9 +240,9 @@ export default function Profile() {
         </Button>
 
         {/* Version */}
-        <p className="text-center text-xs text-muted-foreground">
+        {/* <p className="text-center text-xs text-muted-foreground">
           Field Flow v1.0.0
-        </p>
+        </p> */}
       </div>
 
       {/* Edit Profile Modal */}
