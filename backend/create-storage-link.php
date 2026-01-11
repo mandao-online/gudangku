@@ -8,6 +8,27 @@
 $target = __DIR__ . '/storage/app/public';
 $link = __DIR__ . '/public/storage';
 
+// Debug: Show current directory and paths
+echo "<h3>Debug Information</h3>";
+echo "<p>Current script directory: " . __DIR__ . "</p>";
+echo "<p>Target path: " . $target . "</p>";
+echo "<p>Link path: " . $link . "</p>";
+
+// Check if we're in the right directory structure
+if (!is_dir(__DIR__ . '/storage')) {
+    echo "<p style='color: orange;'>⚠️ Storage directory not found in current location</p>";
+    echo "<p>Checking parent directory...</p>";
+    
+    // Try parent directory (if script is in subdirectory)
+    $parentDir = dirname(__DIR__);
+    $target = $parentDir . '/storage/app/public';
+    $link = $parentDir . '/public/storage';
+    
+    echo "<p>Trying parent directory: $parentDir</p>";
+    echo "<p>New target path: " . $target . "</p>";
+    echo "<p>New link path: " . $link . "</p>";
+}
+
 echo "<h2>Laravel Storage Link Creator</h2>";
 echo "<p>Target: " . $target . "</p>";
 echo "<p>Link: " . $link . "</p>";
