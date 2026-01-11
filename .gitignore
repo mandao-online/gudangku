@@ -19,6 +19,9 @@ backend/vendor/
 backend/node_modules/
 backend/.env
 backend/.env.backup
+backend/.env.hostinger
+backend/.env.production
+backend/.env.staging
 backend/.phpunit.result.cache
 backend/Homestead.json
 backend/Homestead.yaml

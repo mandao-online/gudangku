@@ -15,9 +15,9 @@ APP_URL=https://gudangku.dashdearchitect.com
 DB_CONNECTION=mysql
 DB_HOST=194.59.164.10
 DB_PORT=3306
-DB_DATABASE=u774809254_gudangku
-DB_USERNAME=u774809254_gudangku
-DB_PASSWORD=Gudangku1!
+DB_DATABASE=dbname
+DB_USERNAME=dbuser
+DB_PASSWORD=password
 
 # CORS & Sanctum - UPDATE WITH YOUR VERCEL DOMAIN
 SANCTUM_STATEFUL_DOMAINS=localhost,127.0.0.1,gudangku.dashdearchitect.com,gudangku-frontend.vercel.app

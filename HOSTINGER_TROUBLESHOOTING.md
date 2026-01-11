@@ -88,7 +88,7 @@ DB_HOST=194.59.164.10
 DB_PORT=3306
 DB_DATABASE=u774809254_gudangku
 DB_USERNAME=u774809254_gudangku
-DB_PASSWORD=Gudangku1!
+DB_PASSWORD=dbuser
 
 # Add your frontend domain here
 SANCTUM_STATEFUL_DOMAINS=your-frontend-domain.vercel.app
@@ -125,7 +125,7 @@ Your database credentials look correct:
 - Host: `194.59.164.10`
 - Database: `u774809254_gudangku`
 - Username: `u774809254_gudangku`
-- Password: `Gudangku1!`
+- Password: `dbuser`
 
 ### 📞 **Next Steps**
 

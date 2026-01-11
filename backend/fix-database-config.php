@@ -33,7 +33,7 @@ try {
         'DB_HOST=194.59.164.10',
         'DB_DATABASE=u774809254_gudangku',
         'DB_USERNAME=u774809254_gudangku',
-        'DB_PASSWORD=Gudangku1!'
+        'DB_PASSWORD=dbuser'
     ];
     
     // Replace database configuration
@@ -43,7 +43,7 @@ try {
     $new_env_content = preg_replace('/DB_HOST=.*/', 'DB_HOST=194.59.164.10', $new_env_content);
     $new_env_content = preg_replace('/DB_DATABASE=.*/', 'DB_DATABASE=u774809254_gudangku', $new_env_content);
     $new_env_content = preg_replace('/DB_USERNAME=.*/', 'DB_USERNAME=u774809254_gudangku', $new_env_content);
-    $new_env_content = preg_replace('/DB_PASSWORD=.*/', 'DB_PASSWORD=Gudangku1!', $new_env_content);
+    $new_env_content = preg_replace('/DB_PASSWORD=.*/', 'DB_PASSWORD=dbuser', $new_env_content);
     
     // Write updated .env
     if (file_put_contents($env_path, $new_env_content)) {
@@ -52,7 +52,7 @@ try {
             $pdo = new PDO(
                 "mysql:host=194.59.164.10;dbname=u774809254_gudangku", 
                 "u774809254_gudangku", 
-                "Gudangku1!"
+                "dbuser"
             );
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             

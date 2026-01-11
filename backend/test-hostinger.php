@@ -16,7 +16,7 @@ try {
     $host = '194.59.164.10';
     $dbname = 'u774809254_gudangku';
     $username = 'u774809254_gudangku';
-    $password = 'Gudangku1!';
+    $password = 'dbuser';
     
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

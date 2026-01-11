@@ -25,7 +25,7 @@ try {
         'port' => '3306',
         'database' => 'u774809254_gudangku',  // Hardcoded Hostinger database
         'username' => 'u774809254_gudangku',  // Hardcoded Hostinger username
-        'password' => 'Gudangku1!',  // Hardcoded Hostinger password
+        'password' => 'dbuser',  // Hardcoded Hostinger password
         'unix_socket' => env('DB_SOCKET', ''),
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -77,7 +77,7 @@ try {
             $pdo = new PDO(
                 "mysql:host=194.59.164.10;dbname=u774809254_gudangku", 
                 "u774809254_gudangku", 
-                "Gudangku1!"
+                "dbuser"
             );
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             

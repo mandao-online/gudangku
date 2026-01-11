@@ -87,7 +87,7 @@ try {
         $pdo = new PDO(
             "mysql:host=194.59.164.10;dbname=u774809254_gudangku", 
             "u774809254_gudangku", 
-            "Gudangku1!"
+            "dbuser"
         );
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
